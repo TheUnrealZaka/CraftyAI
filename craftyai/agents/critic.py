@@ -99,7 +99,7 @@ class CriticAgent:
             return False, ""
 
         critic = self.llm(messages).content
-        print(f"\033[31m****Critic Agent ai message****\n{critic}\033[0m")
+        print(f"\033[31m****Critic Agent AI message****\n{critic}\033[0m")
         try:
             response = fix_and_parse_json(critic)
             assert response["success"] in [True, False]

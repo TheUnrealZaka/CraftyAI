@@ -10,8 +10,6 @@ EXTRAS = {}
 
 
 def _read_file(fname):
-    # this_dir = os.path.abspath(os.path.dirname(__file__))
-    # with open(os.path.join(this_dir, fname)) as f:
     with pathlib.Path(fname).open(encoding="utf-8") as fp:
         return fp.read()
 
@@ -32,7 +30,7 @@ def _fill_extras(extras):
 setup(
     name=PKG_NAME,
     version=VERSION,
-    author=f"TheUnrealZaka & Shadix_16",
+    author=f"TheUnrealZaka",
     author_email="info@theunrealzaka.me",
     url="https://github.com/TheUnrealZaka/CraftyAI",
     description="CraftyAI is an intelligent agent for Minecraft with LLM (Large Language Models).",
