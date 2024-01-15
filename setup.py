@@ -4,7 +4,7 @@ import pkg_resources
 from setuptools import setup, find_packages
 
 
-PKG_NAME = "craftyai"
+PKG_NAME = "CraftyAI"
 VERSION = "1.0.0"
 EXTRAS = {}
 

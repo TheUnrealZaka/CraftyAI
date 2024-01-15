@@ -9,7 +9,6 @@ import errno
 import shutil
 import glob
 
-# import pwd
 import codecs
 import hashlib
 import tarfile
@@ -240,7 +239,7 @@ def f_remove(*fpath, verbose=False, dry_run=False):
             if e.errno == errno.ENOTDIR:
                 try:
                     os.remove(f)
-                except:  # final resort safeguard
+                except:
                     pass
     if verbose:
         print(f'Deleted "{fpath}"')
@@ -293,16 +292,11 @@ def _f_copytree(
             if os.path.islink(srcname):
                 linkto = os.readlink(srcname)
                 if symlinks:
-                    # We can't just leave it to `copy_function` because legacy
-                    # code with a custom `copy_function` may rely on copytree
-                    # doing the right thing.
                     os.symlink(linkto, dstname)
                     shutil.copystat(srcname, dstname, follow_symlinks=not symlinks)
                 else:
-                    # ignore dangling symlink if the flag is on
                     if not os.path.exists(linkto) and ignore_dangling_symlinks:
                         continue
-                    # otherwise let the copy occurs. copy2 will raise an error
                     if os.path.isdir(srcname):
                         _f_copytree(
                             srcname, dstname, symlinks, ignore, exist_ok, copy_function
@@ -312,10 +306,7 @@ def _f_copytree(
             elif os.path.isdir(srcname):
                 _f_copytree(srcname, dstname, symlinks, ignore, exist_ok, copy_function)
             else:
-                # Will raise a SpecialFileError for unsupported file types
                 copy_function(srcname, dstname)
-        # catch the Error from the recursive copytree so that we can
-        # continue with other files
         except shutil.Error as err:
             errors.extend(err.args[0])
         except OSError as why:
@@ -323,7 +314,6 @@ def _f_copytree(
     try:
         shutil.copystat(src, dst)
     except OSError as why:
-        # Copying file access times may fail on Windows
         if getattr(why, "winerror", None) is None:
             errors.append((src, dst, str(why)))
     if errors:
@@ -386,10 +376,10 @@ def f_split_path(fpath, normpath=True):
     allparts = []
     while 1:
         parts = os.path.split(fpath)
-        if parts[0] == fpath:  # sentinel for absolute paths
+        if parts[0] == fpath:
             allparts.insert(0, parts[0])
             break
-        elif parts[1] == fpath:  # sentinel for relative paths
+        elif parts[1] == fpath:
             allparts.insert(0, parts[1])
             break
         else:
@@ -556,8 +546,6 @@ def dump_text_lines(lines: list[str], *fpaths, add_newline=True):
         for line in lines:
             print(line, file=fp, end="\n" if add_newline else "")
 
-
-# aliases to be consistent with other load_* and dump_*
 pickle_load = load_pickle
 pickle_dump = dump_pickle
 text_load = load_text

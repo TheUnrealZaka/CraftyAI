@@ -12,8 +12,6 @@ from .agents import CriticAgent
 from .agents import CurriculumAgent
 from .agents import SkillManager
 
-
-# TODO: remove event memory
 class CraftyAI:
     def __init__(
         self,
@@ -49,7 +47,6 @@ class CraftyAI:
         skill_library_dir: str = None,
         resume: bool = False,
     ):
-        # init env
         self.env = CraftyAIEnv(
             mc_port=mc_port,
             server_port=server_port,
@@ -59,12 +56,10 @@ class CraftyAI:
         self.reset_placed_if_failed = reset_placed_if_failed
         self.max_iterations = max_iterations
 
-        # set openai api key
         os.environ["OPENAI_API_KEY"] = openai_api_key
 
         os.environ["OPENAI_API_BASE"] = openai_api_base
 
-        # init agents
         self.action_agent = ActionAgent(
             model_name=action_agent_model_name,
             temperature=action_agent_temperature,
@@ -104,7 +99,6 @@ class CraftyAI:
         self.recorder = U.EventRecorder(ckpt_dir=ckpt_dir, resume=resume)
         self.resume = resume
 
-        # init variables for rollout
         self.action_agent_rollout_num_iter = -1
         self.task = None
         self.context = ""
@@ -126,7 +120,6 @@ class CraftyAI:
         difficulty = (
             "easy" if len(self.curriculum_agent.completed_tasks) > 15 else "peaceful"
         )
-        # step to peek an observation
         events = self.env.step(
             "bot.chat(`/time set ${getNextTime()}`);\n"
             + f"bot.chat('/difficulty {difficulty}');"
@@ -177,7 +170,6 @@ class CraftyAI:
             )
 
             if self.reset_placed_if_failed and not success:
-                # revert all the placing event in the last step
                 blocks = []
                 positions = []
                 for event_type, event in events:
@@ -244,7 +236,6 @@ class CraftyAI:
 
     def learn(self, reset_env=True):
         if self.resume:
-            # keep the inventory
             self.env.reset(
                 options={
                     "mode": "soft",
@@ -252,7 +243,6 @@ class CraftyAI:
                 }
             )
         else:
-            # clear the inventory
             self.env.reset(
                 options={
                     "mode": "hard",
@@ -281,12 +271,11 @@ class CraftyAI:
                     reset_env=reset_env,
                 )
             except Exception as e:
-                time.sleep(3)  # wait for mineflayer to exit
+                time.sleep(3)
                 info = {
                     "task": task,
                     "success": False,
                 }
-                # reset bot status here
                 self.last_events = self.env.reset(
                     options={
                         "mode": "hard",
@@ -296,7 +285,6 @@ class CraftyAI:
                         "position": self.last_events[-1][1]["status"]["position"],
                     }
                 )
-                # use red color background to print the error
                 print("Your last round rollout terminated due to error:")
                 print(f"\033[41m{e}\033[0m")
 
