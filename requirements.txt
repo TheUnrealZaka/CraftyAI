@@ -2,7 +2,7 @@ tqdm
 langchain
 javascript
 setuptools
-openai<1.0.0
+openai<2.0.0
 chardet
 cchardet
 chromadb==0.3.29
