@@ -19,7 +19,7 @@ class CraftyAI:
         server_port: int = 3000,
         openai_api_key: str = None,
         openai_api_base: str = "http://127.0.0.1:1337",
-        env_wait_ticks: int = 20,
+        env_wait_ticks: int = 30,
         env_request_timeout: int = 600,
         max_iterations: int = 160,
         reset_placed_if_failed: bool = False,

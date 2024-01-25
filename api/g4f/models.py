@@ -39,11 +39,7 @@ default = Model(
     name          = "",
     base_provider = "",
     best_provider = RetryProvider([
-        Bing,         # Not fully GPT 3 or 4
-        Yqcloud,      # Answers short questions in chinese
-        ChatBase,     # Don't want to answer creatively
-        ChatgptDuo,   # Include search results
-        Aibn, Aichat, ChatgptAi, ChatgptLogin, FreeGpt, GptGo, Myshell, Ylokh,
+        Bing
     ])
 )
 
@@ -52,9 +48,7 @@ gpt_35_long = Model(
     name          = 'gpt-3.5-turbo',
     base_provider = 'openai',
     best_provider = RetryProvider([
-        AiAsk, Aibn, Aichat, ChatgptAi, ChatgptDemo, ChatgptDuo,
-        FreeGpt, GptGo, Liaobots, Myshell, Vitalentum, Ylokh, You, Yqcloud,
-        GPTalk, GptGod
+        Bing
     ])
 )
 
@@ -63,7 +57,7 @@ gpt_35_turbo = Model(
     name          = 'gpt-3.5-turbo',
     base_provider = 'openai',
     best_provider = RetryProvider([
-        ChatgptLogin, ChatgptAi, GptGo, AItianhu, Aichat, AItianhuSpace, Myshell, Aibn, FreeGpt, Ylokh
+        Bing
     ])
 )
 
