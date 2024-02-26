@@ -5,7 +5,7 @@ setuptools
 openai<1.0.0
 chardet
 cchardet
-chromadb==0.3.29
+chromadb==0.4.23
 tiktoken
 requests
 setuptools
