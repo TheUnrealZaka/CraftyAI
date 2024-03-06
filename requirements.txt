@@ -1,5 +1,5 @@
 tqdm
-langchain==0.0.330
+langchain==0.1.11
 javascript
 setuptools
 openai<1.0.0
